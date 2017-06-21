@@ -1,0 +1,126 @@
+<form class="detailsForm" [formGroup]="detailsForm">
+  <md-tab-group [(selectedIndex)]="tabIndex" (selectChange)="showMapping($event)">
+    <md-tab label="Main" [disabled]="!editing">
+      <md-input-container class="formControl halfWidth">
+        <input
+          required
+          class="formInput"
+          mdInput
+          placeholder="Scenario Name"
+          value=""
+          formControlName="scenarioName">
+      </md-input-container>
+      <md-input-container class="formControl halfWidth">
+        <input
+          required
+          class="formInput"
+          mdInput
+          placeholder="Priority"
+          value=""
+          formControlName="priority">
+      </md-input-container>
+      <md-input-container class="formControl halfWidth">
+        <input
+          class="formInput"
+          mdInput
+          placeholder="Required Scenario State"
+          value=""
+          formControlName="requiredScenarioState">
+      </md-input-container>
+      <md-input-container class="formControl halfWidth">
+        <input
+          class="formInput"
+          mdInput
+          placeholder="New Scenario State"
+          value=""
+          formControlName="newScenarioState">
+      </md-input-container>
+    </md-tab>
+    <md-tab formGroupName="request" label="Request" [disabled]="!editing">
+      <md-select class="formSelect halfWidth" placeholder="Method" formControlName="method">
+        <md-option *ngFor="let option of options" [value]="option">{{option}}</md-option>
+      </md-select>
+      <md-input-container class="formControl halfWidth">
+        <input required class="formInput" mdInput placeholder="URL Path" value="" formControlName="urlPath">
+      </md-input-container>
+    </md-tab>
+    <md-tab formGroupName="request" label="Request matching rules" [disabled]="!editing">
+      <md-tab-group>
+        <md-tab label="Body Patterns">
+          <div class="halfWidth" formArrayName="bodyPatterns">
+            <button
+              md-raised-button
+              color="primary"
+              (click)="addBodyPattern()"
+              disabled="{{bodyPatterns.controls.length > 3}}"
+              class="addButton">Add pattern</button>
+            <div *ngFor="let pattern of bodyPatterns.controls; let i=index" [formGroupName]="i">
+              <md-select class="formSelect halfWidth" placeholder="Pattern Type" formControlName="type">
+                <md-option *ngFor="let option of patternOptions" [value]="option.type">{{option.text}}</md-option>
+              </md-select>
+              <button class="removeButton" color="warn" md-raised-button *ngIf="bodyPatterns.controls.length" (click)="removePattern(i)">
+                Remove Pattern
+                <i class="material-icons">clear</i>
+              </button>
+              <md-input-container class="formControl">
+                <textarea required rows="5" class="formInput" mdInput placeholder="Body Contains" formControlName="value"></textarea>
+              </md-input-container>
+            </div>
+          </div>
+        </md-tab>
+        <md-tab label="Cookies" formGroupName="cookies">
+          <md-input-container class="formControl quarterWidth">
+            <input class="formInput" mdInput placeholder="Cookie" value="" formControlName="name">
+          </md-input-container>
+          <button *ngIf="cookies.dirty"
+                  class="removeButton cookieButton quarterWidth"
+                  color="warn"
+                  md-raised-button
+                  (click)="cookies.reset()">
+            Remove Cookie
+            <i class="material-icons">clear</i>
+          </button>
+          <md-select class="formSelect halfWidth cookieSelect" placeholder="Pattern Type" formControlName="type">
+            <md-option *ngFor="let option of patternOptions" [value]="option.type">{{option.text}}</md-option>
+          </md-select>
+          <md-input-container class="formControl halfWidth">
+            <input
+              class="formInput"
+              mdInput
+              placeholder="Value"
+              value=""
+              formControlName="value">
+          </md-input-container>
+        </md-tab>
+      </md-tab-group>
+    </md-tab>
+    <md-tab formGroupName="response" label="Response" [disabled]="!editing">
+      <md-input-container class="formControl halfWidth">
+        <input class="formInput" mdInput placeholder="Status" value="" formControlName="status">
+      </md-input-container>
+      <md-input-container class="formControl halfWidth">
+        <input class="formInput" mdInput placeholder="Response Delay" value="" formControlName="fixedDelayMilliseconds">
+      </md-input-container>
+      <md-input-container class="formControl halfWidth">
+        <input class="formInput" mdInput placeholder="Proxy URL" value="" formControlName="proxyBaseUrl">
+      </md-input-container>
+      <md-input-container class="formControl halfWidth">
+        <textarea mdTextareaAutosize class="formInput" mdInput placeholder="Response Body" value="" formControlName="body"></textarea>
+      </md-input-container>
+    </md-tab>
+    <md-tab label="Result" [disabled]="!detailsForm.valid">
+      <div class="formControl">
+        <pre>{{mapping | json}}</pre>
+      </div>
+      <button
+        color="primary"
+        type="submit"
+        class="updateButton"
+        md-raised-button
+        (click)="startEditing()">
+        <md-icon class="material-icons mat-icon">mode_edit</md-icon>
+      </button>
+    </md-tab>
+  </md-tab-group>
+</form>
+

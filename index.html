@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Proxy Manager Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+</head>
+<body>
+<div class="container">
+  <h2>Rules list</h2>
+  <h4>Total 0</h4>
+  <table class="striped">
+    <thead>
+    <tr>
+      <th>Rule Name</th>
+      <th>URL Path</th>
+      <th>Method</th>
+      <th>Response Status</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    </tbody>
+  </table>
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+<script>
+  let total;
+  $(document).ready(() => {
+    $.get('http://localhost:8080/__admin/mappings', (data) => {
+      $('h4').text(`Total ${data.meta.total}`);
+      data.mappings.forEach((mapping) => {
+
+        let tableBody = $('tbody');
+        let row = $('<tr></tr>');
+
+        let scenarioName = $(`<td>${mapping.scenarioName || 'None'}</td>`);
+        let urlPath = $(`<td>${mapping.request.urlPath || 'None'}</td>`);
+        let method = $(`<td>${mapping.request.method || 'None'}</td>`);
+        let status = $(`<td>${mapping.response.status || 'None'}</td>`);
+
+        row.append(scenarioName);
+        row.append(urlPath);
+        row.append(method);
+        row.append(status);
+
+        tableBody.append(row);
+      });
+    })
+  })
+</script>
+</body>
+</html>

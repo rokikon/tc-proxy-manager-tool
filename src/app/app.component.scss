@@ -1,0 +1,22 @@
+.mat-nav-list {
+  padding: 0;
+  a {
+    font-size: 1.5rem;
+    padding: 0 1rem;
+    color: white;
+    text-decoration: none;
+  }
+}
+.createButton {
+
+  position: fixed;
+  bottom: 5%;
+  right: 2%;
+
+  .material-icons {
+    font-size: 2.5rem;
+  }
+}
+.mat-tab-nav-bar {
+  background-color: #f9a825;
+}
