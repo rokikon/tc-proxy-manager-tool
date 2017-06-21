@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --bh='/tc-proxy-manager/dist/' --vc=false --oh=false --aot --prod",
+    "build": "ng build --vc=false --oh=false --aot --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
